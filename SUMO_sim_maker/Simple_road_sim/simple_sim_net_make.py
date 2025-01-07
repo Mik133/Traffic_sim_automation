@@ -16,7 +16,13 @@ def simple_sim_net_make():
     junction_0 = "J0"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     junction_1 = "J1"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     speed = "13.89"# TO BE ENTERED FROM EXTERNAL(DEBUG)
+    num_of_lanes = 2
+    # Create lane names
+    inc_lanes_j1 = ""
+    for lane_num in range(num_of_lanes):
+        inc_lanes_j1 += edge_0 + f"_{lane_num} "
     # Base args:
+    inc_lanes_j1 = inc_lanes_j1[:-1]
     road_length = 150  # meters # TO BE ENTERED FROM EXTERNAL(DEBUG)
     angle_degrees = 0  # Default is horizontal road # TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Make XML Object
@@ -33,12 +39,12 @@ def simple_sim_net_make():
     location_header_xml = location_header_object.to_XML(simple_net)
     net_header_xml.appendChild(location_header_xml)
     # Create and add edge & lanes
-    edge_object = edgeObj.edgeObject(edge_0,1,f"{road_length}",junction_0,junction_1," ".join([f"{x},{y}" for x, y in shape]),speed)
+    edge_object = edgeObj.edgeObject(edge_0,num_of_lanes,f"{road_length}",junction_0,junction_1," ".join([f"{x},{y}" for x, y in shape]),speed)
     edge_xml = edge_object.to_XML(simple_net)
     net_header_xml.appendChild(edge_xml)
     # Create and add Junctions
     j0_obj = junctObg.junctionObject(junction_0,"dead_end",str(shape[0][0]),str(shape[0][1]),"",""," ".join([f"{x},{y}" for x, y in j0_shape]))
-    j1_obj = junctObg.junctionObject(junction_1,"dead_end",str(shape[1][0]),str(shape[1][1]),edge_0 + "_0",""," ".join([f"{x},{y}" for x, y in j1_shape]))
+    j1_obj = junctObg.junctionObject(junction_1,"dead_end",str(shape[1][0]),str(shape[1][1]),inc_lanes_j1,""," ".join([f"{x},{y}" for x, y in j1_shape]))
     j0_xml = j0_obj.to_XML(simple_net)
     j1_xml = j1_obj.to_XML(simple_net)
     net_header_xml.appendChild(j0_xml)

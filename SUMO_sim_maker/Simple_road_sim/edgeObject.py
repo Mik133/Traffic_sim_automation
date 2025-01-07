@@ -18,6 +18,7 @@ class edgeObject:
 
     def generateLanes(self):
         lanes = []
+        # Format shape for multiple lanes
         for laneNum in range(self.numOfLanes):
             new_lane = lane.laneObject(self.id + f"_{laneNum}",f":{laneNum}",
                                           self.speed,self.laneLeght,self.lane_shapes)

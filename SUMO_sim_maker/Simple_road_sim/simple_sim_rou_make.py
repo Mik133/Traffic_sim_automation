@@ -8,7 +8,7 @@ import routesObject
 
 def simple_sim_rou_make():
     num_of_cars = 2 # TO BE ENTERED FROM EXTERNAL(DEBUG)
-    interval = 5 # TO BE ENTERED FROM EXTERNAL(DEBUG)
+    interval = 0 # TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Make XML Object
     simple_rou = minidom.Document()
     # Add routes header
