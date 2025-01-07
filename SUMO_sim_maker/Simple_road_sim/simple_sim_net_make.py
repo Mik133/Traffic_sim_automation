@@ -16,7 +16,7 @@ def simple_sim_net_make(simple_sim_args_object):
     junction_0 = "J0"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     junction_1 = "J1"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     speed = "13.89"# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    num_of_lanes = 2
+    num_of_lanes = 4
     # Create lane names
     inc_lanes_j1 = ""
     lane_list = []
