@@ -11,7 +11,7 @@ from xml.dom import minidom
 from simple_sim_utils import calculate_shapes
 from simple_sim_utils import calculate_conv_boundaries
 
-def simple_sim_net_make():
+def simple_sim_net_make(simple_sim_args_object):
     edge_0 = 'E0'# TO BE ENTERED FROM EXTERNAL(DEBUG)
     junction_0 = "J0"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     junction_1 = "J1"# TO BE ENTERED FROM EXTERNAL(DEBUG)
@@ -19,8 +19,10 @@ def simple_sim_net_make():
     num_of_lanes = 2
     # Create lane names
     inc_lanes_j1 = ""
+    lane_list = []
     for lane_num in range(num_of_lanes):
         inc_lanes_j1 += edge_0 + f"_{lane_num} "
+        lane_list.append(edge_0 + f"_{lane_num}")
     # Base args:
     inc_lanes_j1 = inc_lanes_j1[:-1]
     road_length = 150  # meters # TO BE ENTERED FROM EXTERNAL(DEBUG)

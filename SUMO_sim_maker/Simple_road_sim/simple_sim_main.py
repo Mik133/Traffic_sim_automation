@@ -23,17 +23,17 @@ def input_header_maker(cfg_xml,file_names):
     return input_header_xml
 
 if __name__ == "__main__":
-    simple_sim_rou_make.simple_sim_rou_make()
-    simple_sim_net_make.simple_sim_net_make()
-    file_names = simple_sim_utils.simple_sim_args()
+    file_names_and_args = simple_sim_utils.simple_sim_args()
+    simple_sim_net_make.simple_sim_net_make(file_names_and_args)
+    simple_sim_rou_make.simple_sim_rou_make(file_names_and_args)
     # Make CFG file
-    simple_sim_cfg = file_names.cfg_file_name
+    simple_sim_cfg = file_names_and_args.cfg_file_name
     simple_sim_cfg_xml = minidom.Document()
     config_header_xml = configuration_header_maker(simple_sim_cfg_xml)
-    config_header_xml.appendChild(input_header_maker(simple_sim_cfg_xml,file_names))
+    config_header_xml.appendChild(input_header_maker(simple_sim_cfg_xml,file_names_and_args))
     simple_sim_cfg_xml.appendChild(config_header_xml)
     simple_cfg_to_xml = simple_sim_cfg_xml.toprettyxml(indent="\t")
-    with open(file_names.cfg_file_name, 'w') as xml_file:
+    with open(file_names_and_args.cfg_file_name, 'w') as xml_file:
         xml_file.write(simple_cfg_to_xml)
     print("Simple simulation files generated")
 

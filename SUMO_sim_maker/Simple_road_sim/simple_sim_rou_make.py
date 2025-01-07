@@ -6,7 +6,7 @@ from xml.dom import minidom
 import carObject
 import routesObject
 
-def simple_sim_rou_make():
+def simple_sim_rou_make(simple_sim_args_object):
     num_of_cars = 2 # TO BE ENTERED FROM EXTERNAL(DEBUG)
     interval = 0 # TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Make XML Object
@@ -18,7 +18,7 @@ def simple_sim_rou_make():
     # Make Cars Objects
     initial_time = 0.00
     for car in range(num_of_cars):
-        new_car = carObject.carObject(f"t_{car}",f"{initial_time + car*interval}","E0","E0") # TO BE ENTERED FROM EXTERNAL(DEBUG)
+        new_car = carObject.carObject(f"t_{car}",f"{initial_time + car*interval}","E0","E0","random") # TO BE ENTERED FROM EXTERNAL(DEBUG)
         new_car_xml = new_car.to_XML(simple_rou)
         routes_xml.appendChild(new_car_xml)
     simple_rou_xml = simple_rou.toprettyxml(indent="\t")
