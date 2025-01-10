@@ -13,10 +13,11 @@ from simple_sim_utils import calculate_conv_boundaries
 
 def simple_sim_net_make(simple_sim_args_object):
     edge_0 = 'E0'# TO BE ENTERED FROM EXTERNAL(DEBUG)
+    edge_1 = 'E1'# TO BE ENTERED FROM EXTERNAL(DEBUG)
     junction_0 = "J0"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     junction_1 = "J1"# TO BE ENTERED FROM EXTERNAL(DEBUG)
     speed = "13.89"# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    num_of_lanes = 4
+    num_of_lanes = 4# TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Create lane names
     inc_lanes_j1 = ""
     lane_list = []
@@ -40,10 +41,15 @@ def simple_sim_net_make(simple_sim_args_object):
     location_header_object = lho.locationHeader(conv_boundary)
     location_header_xml = location_header_object.to_XML(simple_net)
     net_header_xml.appendChild(location_header_xml)
-    # Create and add edge & lanes
-    edge_object = edgeObj.edgeObject(edge_0,num_of_lanes,f"{road_length}",junction_0,junction_1," ".join([f"{x},{y}" for x, y in shape]),speed)
-    edge_xml = edge_object.to_XML(simple_net)
-    net_header_xml.appendChild(edge_xml)
+    # Create and add edge & lanes(edge 0 is Left->Right , and edge 1 is Right->Left)
+    edge0_object = edgeObj.edgeObject(edge_0,num_of_lanes,f"{road_length}",junction_0,junction_1,
+                                      " ".join([f"{x},{y}" for x, y in shape]),speed)
+    edge1_object = edgeObj.edgeObject(edge_1, num_of_lanes, f"{road_length}", junction_1, junction_0,
+                                      " ".join([f"{x},{y}" for x, y in shape]), speed)
+    edge0_xml = edge0_object.to_XML(simple_net)
+    edge1_xml = edge1_object.to_XML(simple_net)
+    net_header_xml.appendChild(edge0_xml)
+    net_header_xml.appendChild(edge1_xml)
     # Create and add Junctions
     j0_obj = junctObg.junctionObject(junction_0,"dead_end",str(shape[0][0]),str(shape[0][1]),"",""," ".join([f"{x},{y}" for x, y in j0_shape]))
     j1_obj = junctObg.junctionObject(junction_1,"dead_end",str(shape[1][0]),str(shape[1][1]),inc_lanes_j1,""," ".join([f"{x},{y}" for x, y in j1_shape]))
