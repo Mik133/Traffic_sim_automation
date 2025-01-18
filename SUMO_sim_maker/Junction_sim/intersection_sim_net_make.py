@@ -9,7 +9,8 @@ import Simple_road_sim.locationHeaderObject as lho
 import intersection_sim_utils
 from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITIVE_SIDE, NEGATIVE_SIDE, \
     make_regular_junction_shapes, calc_conv_boundary, shape_to_string, regular_edge_xml_maker, dead_end_junction_maker, \
-    jucntion_shape_to_string_six_vals
+    jucntion_shape_to_string_six_vals, make_priority_junction_shapes, junction_shape_to_string_eight_vals, \
+    priority_junction_maker
 
 # Objects import
 import edgeObject
@@ -22,6 +23,10 @@ if __name__ == "__main__":
     lane_width = 2.00
     x_init = 0.00
     y_init = 0.00
+    num_of_reqs = 2
+    req_responses = ['00','00']
+    req_foes = ['00','00']
+    req_cont = ['0','0']
     # Create XML Doc
     intersection_net = minidom.Document()
     # Create Net header Entry
@@ -47,8 +52,9 @@ if __name__ == "__main__":
     J0_shape_string = jucntion_shape_to_string_six_vals(J0_shape)
     J2_shape = make_regular_junction_shapes(E1_pos_shape['x_f'],E1_pos_shape['y_f'],lane_width)
     J2_shape_string = jucntion_shape_to_string_six_vals(J2_shape)
-    # Calculate shapes for internal edges
-
+    # Calculate shapes for priority jucntions
+    J1_shape = make_priority_junction_shapes(x_init,y_init,lane_width,road_length)
+    J1_shape_string = junction_shape_to_string_eight_vals(J1_shape)
     # Make regular edges
     regular_edge_xml_maker('E0','J0','J1',1,f"{road_length}",E0_pos_shape_string,'13.89',intersection_net,net_header_xml)
     regular_edge_xml_maker('-E0','J1','J0',1,f"{road_length}",E0_neg_shape_string,'13.89',intersection_net,net_header_xml)
@@ -57,6 +63,9 @@ if __name__ == "__main__":
     # Make dead end Junctions
     dead_end_junction_maker('J0',f"{J0_shape['x_0']}",f"{J0_shape['y_0']}",'-E0_0','',J0_shape_string,intersection_net,net_header_xml)
     dead_end_junction_maker('J2',f"{J2_shape['x_0']}",f"{J2_shape['y_0']}",'E1_0','',J2_shape_string,intersection_net,net_header_xml)
+    # Make priority junctions
+    priority_junction_maker('J1',f"{x_init + road_length}",f"{y_init + lane_width}",'-E1_0 E0_0',':J1_0_0 :J1_1_0',J1_shape_string,intersection_net,num_of_reqs
+                            ,req_responses,req_foes,req_cont,net_header_xml)
     # Make XML net file
     intersection_net_xml = intersection_net.toprettyxml(indent="\t")
     with open("intersection_net.net.xml", 'w') as xml_file:

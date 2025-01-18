@@ -71,6 +71,7 @@ class JunctionPriorityObject:
         junction_xml.setAttribute('incLanes',self.inc_lanes)
         junction_xml.setAttribute('intLanes',self.int_lanes)
         junction_xml.setAttribute('shape',self.shape)
+        self.make_jreqs()
         for req in range(self.num_of_req):
             junction_xml.appendChild(self.reqs[req].to_XML())
         return junction_xml
