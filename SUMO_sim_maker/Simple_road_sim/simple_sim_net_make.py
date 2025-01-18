@@ -1,13 +1,15 @@
+#---Written by Michael Popov and Yuval Marsh---
 #--This is main file to run tests--
 
 #Imports
 import netHeaderObject as nho
 import locationHeaderObject as lho
 import edgeObject as edgeObj
-import junctionObject as junctObg
+import junctionObject as junctObj
 
 from xml.dom import minidom
 
+from Simple_road_sim.simple_sim_utils import PI_Const
 from simple_sim_utils import calculate_shapes
 from simple_sim_utils import calculate_conv_boundaries
 
@@ -27,7 +29,7 @@ def simple_sim_net_make(simple_sim_args_object):
     # Base args:
     inc_lanes_j1 = inc_lanes_j1[:-1]
     road_length = 150  # meters # TO BE ENTERED FROM EXTERNAL(DEBUG)
-    angle_degrees = 0  # Default is horizontal road # TO BE ENTERED FROM EXTERNAL(DEBUG)
+    angle_degrees = 0 # Default is horizontal road # TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Make XML Object
     simple_net = minidom.Document()
     # Net header create and add
@@ -51,8 +53,8 @@ def simple_sim_net_make(simple_sim_args_object):
     net_header_xml.appendChild(edge0_xml)
     net_header_xml.appendChild(edge1_xml)
     # Create and add Junctions
-    j0_obj = junctObg.junctionObject(junction_0,"dead_end",str(shape[0][0]),str(shape[0][1]),"",""," ".join([f"{x},{y}" for x, y in j0_shape]))
-    j1_obj = junctObg.junctionObject(junction_1,"dead_end",str(shape[1][0]),str(shape[1][1]),inc_lanes_j1,""," ".join([f"{x},{y}" for x, y in j1_shape]))
+    j0_obj = junctObj.junctionObject(junction_0,"dead_end",str(shape[0][0]),str(shape[0][1]),"",""," ".join([f"{x},{y}" for x, y in j0_shape]))
+    j1_obj = junctObj.junctionObject(junction_1,"dead_end",str(shape[1][0]),str(shape[1][1]),inc_lanes_j1,""," ".join([f"{x},{y}" for x, y in j1_shape]))
     j0_xml = j0_obj.to_XML(simple_net)
     j1_xml = j1_obj.to_XML(simple_net)
     net_header_xml.appendChild(j0_xml)

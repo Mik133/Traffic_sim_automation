@@ -1,5 +1,9 @@
 import math
 
+#Global constants
+PI_Const = 3.14159265359
+
+
 class simple_sim_args:
     def __init__(self):
         self.net_file_name = "simple_net.net.xml"

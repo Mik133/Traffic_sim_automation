@@ -1,4 +1,6 @@
 #---Written by Michael Popov and Yuval Marsh---
+import math
+
 
 #Imports
 import simple_sim_net_make
@@ -22,7 +24,7 @@ def input_header_maker(cfg_xml,file_names):
     input_header_xml.appendChild(rou_file_xml)
     return input_header_xml
 
-if __name__ == "__main__":
+def simple_sim_maker():
     file_names_and_args = simple_sim_utils.simple_sim_args()
     simple_sim_net_make.simple_sim_net_make(file_names_and_args)
     simple_sim_rou_make.simple_sim_rou_make(file_names_and_args)
