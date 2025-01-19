@@ -8,6 +8,7 @@ POSITIVE_SIDE = "Positive"
 import math
 import edgeObject
 import junctionObject
+import connectionObject
 
 def make_internal_edge_shapes(road_length):
     print("DEBUG")
@@ -56,6 +57,23 @@ def make_priority_junction_shapes(x_init,y_init,lane_width,road_length):
              'y_4':y_4,}
     return shape
 
+def internal_edge_shapes(x_init,y_init,lane_width,road_length,side):
+    x_1 = x_init + road_length + 0.1
+    y_1 = y_init + lane_width
+    x_2 = x_1 + 0.3
+    y_2 = y_init + lane_width
+    if side == POSITIVE_SIDE:
+        shape = {'x_0':x_1,
+                 'y_0':y_1,
+                 'x_f':x_2,
+                 'y_f':y_2,}
+    else:
+        shape = {'x_0':x_2,
+                 'y_0':y_2,
+                 'x_f':x_1,
+                 'y_f':y_1,}
+    return shape
+
 def calc_conv_boundary(x_init, y_init, road_length, lane_width):
     conv_boundary = [x_init,y_init,x_init + road_length * 2,y_init + lane_width * 2]
     return conv_boundary
@@ -86,3 +104,13 @@ def priority_junction_maker(j_id,x_j,y_j,inc_lanes,int_lanes,shape,net_xml,num_o
     new_junction = junctionObject.JunctionPriorityObject(j_id,x_j,y_j,inc_lanes,int_lanes,shape,net_xml,num_of_req,req_responses,req_foes,req_cont)
     new_junction_xml = new_junction.to_XML()
     net_header_xml.appendChild(new_junction_xml)
+
+def connection_maker(c_from,c_to,c_from_lane,c_to_lane,c_via,c_dir,c_state,net_xml,net_header_xml):
+    new_connection = connectionObject.conncectionObject(c_from,c_to,c_from_lane,c_to_lane,c_via,c_dir,c_state,net_xml)
+    new_connection_xml = new_connection.to_XML()
+    net_header_xml.appendChild(new_connection_xml)
+
+def internal_edge_maker(e_id,num_of_lanes,lane_length,lane_shapes,speed,net_xml,net_header_xml):
+    new_edge = edgeObject.InternalEdgeObject(e_id,num_of_lanes,lane_length,lane_shapes,speed,net_xml)
+    new_edge_xml = new_edge.to_XML()
+    net_header_xml.appendChild(new_edge_xml)
