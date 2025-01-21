@@ -1,7 +1,7 @@
 #---Written by Michael Popov and Yuval Marsh---
 
 #Imports
-import laneObject as lane
+import Simple_road_sim.laneObject as lane
 from xml.dom import minidom
 #Edge Object
 class edgeObject:

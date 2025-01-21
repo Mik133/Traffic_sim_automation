@@ -2,16 +2,16 @@
 #--This is main file to run tests--
 
 #Imports
-import netHeaderObject as nho
-import locationHeaderObject as lho
-import edgeObject as edgeObj
-import junctionObject as junctObj
+import Simple_road_sim.netHeaderObject as nho
+import Simple_road_sim.locationHeaderObject as lho
+import Simple_road_sim.edgeObject as edgeObj
+import Simple_road_sim.junctionObject as junctObj
 
 from xml.dom import minidom
 
 from Simple_road_sim.simple_sim_utils import PI_Const
-from simple_sim_utils import calculate_shapes
-from simple_sim_utils import calculate_conv_boundaries
+from Simple_road_sim.simple_sim_utils import calculate_shapes
+from Simple_road_sim.simple_sim_utils import calculate_conv_boundaries
 
 def simple_sim_net_make(simple_sim_args_object):
     edge_0 = 'E0'# TO BE ENTERED FROM EXTERNAL(DEBUG)

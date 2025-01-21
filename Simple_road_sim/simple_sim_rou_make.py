@@ -3,8 +3,8 @@
 #Imports
 from xml.dom import minidom
 
-import carObject
-import routesObject
+from Simple_road_sim import routesObject, carObject
+
 
 def simple_sim_rou_make(simple_sim_args_object):
     num_of_cars_lane_lf = 7 # TO BE ENTERED FROM EXTERNAL(DEBUG)

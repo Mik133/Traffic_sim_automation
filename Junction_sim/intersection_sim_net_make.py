@@ -16,7 +16,7 @@ from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITI
 import edgeObject
 import laneObject
 
-#def half_intersection_sim_net_make():
+#def split_road_sim_net_make():
 if __name__ == "__main__":
     # Inputs:
     road_length = 150.00
