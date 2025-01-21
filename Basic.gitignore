@@ -1,4 +1,4 @@
 # Pycharm and etc
-.git
-.idea
-__pycache__
+*.git/
+*.idea/
+__pycache__/
