@@ -12,3 +12,4 @@ if __name__ == '__main__':
         simple_sim_maker()
     elif simp_type == SPLIT_ROAD_SIM:
         print("DEBUG = split sim")
+    print("DEBUG DEBUG")
