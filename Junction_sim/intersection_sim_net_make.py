@@ -6,18 +6,15 @@ from xml.dom import minidom
 import Simple_road_sim.netHeaderObject as nho
 import Simple_road_sim.locationHeaderObject as lho
 
-import intersection_sim_utils
 from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITIVE_SIDE, NEGATIVE_SIDE, \
     make_regular_junction_shapes, calc_conv_boundary, shape_to_string, regular_edge_xml_maker, dead_end_junction_maker, \
     jucntion_shape_to_string_six_vals, make_priority_junction_shapes, junction_shape_to_string_eight_vals, \
     priority_junction_maker, connection_maker, internal_edge_shapes, internal_edge_maker
 
 # Objects import
-import edgeObject
-import laneObject
 
-#def split_road_sim_net_make():
-if __name__ == "__main__":
+
+def split_road_sim_net_make():
     # Inputs:
     road_length = 150.00
     lane_width = 2.00

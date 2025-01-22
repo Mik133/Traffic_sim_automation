@@ -1,14 +1,14 @@
 #---Written by Michael Popov and Yuval Marsh---
+from PIL.PdfParser import IndirectObjectDef
 
 # Consts
 NEGATIVE_SIDE = "Negative"
 POSITIVE_SIDE = "Positive"
 
 # Imports
-import math
-import edgeObject
-import junctionObject
-import connectionObject
+from Junction_sim import junctionObject
+from Junction_sim import connectionObject
+from Junction_sim import edgeObject
 
 def make_internal_edge_shapes(road_length):
     print("DEBUG")
@@ -96,12 +96,12 @@ def regular_edge_xml_maker(e_id,e_from,e_to,num_of_lanes,road_length,lane_shape,
     net_header_xml.appendChild(new_edge_xml)
 
 def dead_end_junction_maker(j_id,x_j,y_j,inc_lanes,int_lanes,shape,net_xml,net_header_xml):
-    new_junction = junctionObject.JunctDeadEndObject(j_id,x_j,y_j,inc_lanes,int_lanes,shape,net_xml)
+    new_junction = junctionObject.JunctDeadEndObject(j_id, x_j, y_j, inc_lanes, int_lanes, shape, net_xml)
     new_junction_xml = new_junction.to_XML()
     net_header_xml.appendChild(new_junction_xml)
 
 def priority_junction_maker(j_id,x_j,y_j,inc_lanes,int_lanes,shape,net_xml,num_of_req,req_responses,req_foes,req_cont,net_header_xml):
-    new_junction = junctionObject.JunctionPriorityObject(j_id,x_j,y_j,inc_lanes,int_lanes,shape,net_xml,num_of_req,req_responses,req_foes,req_cont)
+    new_junction = junctionObject.JunctionPriorityObject(j_id, x_j, y_j, inc_lanes, int_lanes, shape, net_xml, num_of_req, req_responses, req_foes, req_cont)
     new_junction_xml = new_junction.to_XML()
     net_header_xml.appendChild(new_junction_xml)
 

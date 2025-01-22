@@ -1,7 +1,7 @@
 #---Written by Michael Popov and Yuval Marsh---
 
 # Imports
-import laneObject
+from Junction_sim import laneObject
 
 class RegularEdgeObject:
     def __init__(self,id,e_from,e_to,num_of_lanes,lane_length,lane_shapes,speed,net_xml):
