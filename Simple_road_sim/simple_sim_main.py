@@ -8,9 +8,6 @@ import Simple_road_sim.simple_sim_rou_make as simple_sim_rou_make
 import Simple_road_sim.simple_sim_utils as simple_sim_utils
 from xml.dom import minidom
 
-
-
-
 # Functions
 def configuration_header_maker(cfg_xml):
     config_header_xml = cfg_xml.createElement('configuration')

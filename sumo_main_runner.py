@@ -1,4 +1,4 @@
-import os
+#---Written by Michael Popov and Yuval Marsh---
 
 from Simple_road_sim.simple_sim_main import simple_sim_maker
 from Junction_sim.intersection_sim_net_make import split_road_sim_net_make

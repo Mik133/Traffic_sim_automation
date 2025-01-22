@@ -78,5 +78,5 @@ def split_road_sim_net_make():
     connection_maker('J1_1', 'E1', '0', '0', '', 's', 'M', intersection_net, net_header_xml)
     # Make XML net file
     intersection_net_xml = intersection_net.toprettyxml(indent="\t")
-    with open("intersection_net.net.xml", 'w') as xml_file:
+    with open("split_net.net.xml", 'w') as xml_file:
         xml_file.write(intersection_net_xml)
