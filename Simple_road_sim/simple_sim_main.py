@@ -7,6 +7,10 @@ import Simple_road_sim.simple_sim_net_make as simple_sim_net_make
 import Simple_road_sim.simple_sim_rou_make as simple_sim_rou_make
 import Simple_road_sim.simple_sim_utils as simple_sim_utils
 from xml.dom import minidom
+
+
+
+
 # Functions
 def configuration_header_maker(cfg_xml):
     config_header_xml = cfg_xml.createElement('configuration')
@@ -24,10 +28,14 @@ def input_header_maker(cfg_xml,file_names):
     input_header_xml.appendChild(rou_file_xml)
     return input_header_xml
 
-def simple_sim_maker():
+def simple_sim_maker(road_length,angle_degrees,edge_0,edge_1,junction_0,
+                                            junction_1,speed,num_of_lanes,num_of_cars_lane_lf,num_of_cars_lane_rl,
+                     interval_lf):
     file_names_and_args = simple_sim_utils.simple_sim_args()
-    simple_sim_net_make.simple_sim_net_make(file_names_and_args)
-    simple_sim_rou_make.simple_sim_rou_make(file_names_and_args)
+    simple_sim_net_make.simple_sim_net_make(file_names_and_args,road_length,angle_degrees,edge_0,edge_1,junction_0,
+                                            junction_1,speed,num_of_lanes)
+    simple_sim_rou_make.simple_sim_rou_make(file_names_and_args,edge_0,edge_1,num_of_cars_lane_lf,num_of_cars_lane_rl,
+                                            interval_lf)
     # Make CFG file
     simple_sim_cfg = file_names_and_args.cfg_file_name
     simple_sim_cfg_xml = minidom.Document()

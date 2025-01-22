@@ -7,8 +7,8 @@ SIMPLE_SIM = 'simple'
 SPLIT_ROAD_SIM = 'split'
 
 if __name__ == '__main__':
-    simp_type = SPLIT_ROAD_SIM
+    simp_type = SIMPLE_SIM
     if simp_type == SIMPLE_SIM:
-        simple_sim_maker()
+        simple_sim_maker(150,0,'E0','E1','J0','J1','13.89',4,10,25,0.25)
     elif simp_type == SPLIT_ROAD_SIM:
         split_road_sim_net_make()
