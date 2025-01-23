@@ -16,6 +16,6 @@ class carFlowObject:
         car_flow_xml.setAttribute('from',self.f_from)
         car_flow_xml.setAttribute('to',self.f_to)
         car_flow_xml.setAttribute('end',self.f_end)
-        car_flow_xml.setAttribute('vhs_per_hour',self.f_vhs_per_hour)
+        car_flow_xml.setAttribute('vehsPerHour',self.f_vhs_per_hour)
         return car_flow_xml
 

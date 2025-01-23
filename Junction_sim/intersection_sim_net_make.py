@@ -14,7 +14,7 @@ from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITI
 # Objects import
 
 
-def split_road_sim_net_make():
+def split_road_sim_net_make(file_name):
     # Inputs:
     road_length = 150.00
     lane_width = 2.00
@@ -78,5 +78,5 @@ def split_road_sim_net_make():
     connection_maker('J1_1', 'E1', '0', '0', '', 's', 'M', intersection_net, net_header_xml)
     # Make XML net file
     intersection_net_xml = intersection_net.toprettyxml(indent="\t")
-    with open("split_net.net.xml", 'w') as xml_file:
+    with open(file_name, 'w') as xml_file:
         xml_file.write(intersection_net_xml)
