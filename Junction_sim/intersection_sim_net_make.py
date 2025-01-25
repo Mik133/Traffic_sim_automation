@@ -14,16 +14,42 @@ from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITI
 # Objects import
 
 
-def split_road_sim_net_make(file_name):
+def split_road_sim_net_make(file_name,road_length,edges,junctions,num_of_rl_lanes,num_of_lr_lanes,internal_edges):
     # Inputs:
-    road_length = 150.00
-    lane_width = 2.00
-    x_init = 0.00
-    y_init = 0.00
-    num_of_reqs = 2
-    req_responses = ['00','00']
-    req_foes = ['00','00']
-    req_cont = ['0','0']
+    lane_width = 2.00 # Constant
+    x_init = 0.00 # Constant
+    y_init = 0.00 # Constant
+    num_of_reqs = num_of_rl_lanes + num_of_lr_lanes
+    req_string = ''
+    req_responses = []
+    req_foes = []
+    req_cont = []
+    for reqs in range(num_of_reqs):
+        req_string += '0'
+    for req in range(num_of_reqs):
+        req_responses.append(req_string)
+        req_foes.append(req_string)
+        req_cont.append('0')
+    # Make inclanes strings
+    jstart_inclanes = ''
+    for lane in range(num_of_lr_lanes):
+        jstart_inclanes += edges['E0_neg'] + f"_{lane} "
+    jstart_inclanes = jstart_inclanes[:-1]
+    jend_inclanes = ''
+    for lane in range(num_of_rl_lanes):
+        jend_inclanes += edges['E1_pos'] + f"_{lane} "
+    jend_inclanes = jend_inclanes[:-1]
+    jmid_inclanes = jstart_inclanes + " " + jend_inclanes
+    internal_edges_lanes_lr_list = []
+    internal_edges_lanes_lr_string = ''
+    for lane in range(num_of_lr_lanes):
+        internal_edges_lanes_lr_list.append(internal_edges['upper'] + f"_{lane}")
+        internal_edges_lanes_lr_string += internal_edges['upper'] + f"_{lane} "
+    internal_edges_lanes_lr_string = internal_edges_lanes_lr_string[:-1]
+    internal_edges_lanes_rl_list = []
+    internal_edges_lanes_rl_string = ''
+
+
     # Create XML Doc
     intersection_net = minidom.Document()
     # Create Net header Entry
@@ -58,24 +84,24 @@ def split_road_sim_net_make(file_name):
     J1_1_shape = internal_edge_shapes(x_init, y_init, lane_width, road_length, POSITIVE_SIDE)
     J1_1_shape_string = shape_to_string(J1_1_shape)
     # Make regular edges
-    regular_edge_xml_maker('E0','J0','J1',1,f"{road_length}",E0_pos_shape_string,'13.89',intersection_net,net_header_xml)
-    regular_edge_xml_maker('-E0','J1','J0',1,f"{road_length}",E0_neg_shape_string,'13.89',intersection_net,net_header_xml)
-    regular_edge_xml_maker('E1','J1','J2',1,f"{road_length}",E1_pos_shape_string,'13.89',intersection_net,net_header_xml)
-    regular_edge_xml_maker('-E1','J2','J1',1,f"{road_length}",E1_neg_shape_string,'13.89',intersection_net,net_header_xml)
+    regular_edge_xml_maker(edges['E0_pos'],junctions['J_start'],junctions['J_mid'],num_of_rl_lanes,f"{road_length}",E0_pos_shape_string,'13.89',intersection_net,net_header_xml)
+    regular_edge_xml_maker(edges['E0_neg'],junctions['J_mid'],junctions['J_start'],num_of_lr_lanes,f"{road_length}",E0_neg_shape_string,'13.89',intersection_net,net_header_xml)
+    regular_edge_xml_maker(edges['E1_pos'],junctions['J_mid'],junctions['J_end'],num_of_rl_lanes,f"{road_length}",E1_pos_shape_string,'13.89',intersection_net,net_header_xml)
+    regular_edge_xml_maker(edges['E1_neg'],junctions['J_end'],junctions['J_mid'],num_of_lr_lanes,f"{road_length}",E1_neg_shape_string,'13.89',intersection_net,net_header_xml)
     # Make internal edges
-    internal_edge_maker('J1_0',1,f"{road_length}",J1_0_shape_string,'13.89',intersection_net,net_header_xml)
-    internal_edge_maker('J1_1',1,f"{road_length}",J1_1_shape_string,'13.89',intersection_net,net_header_xml)
+    internal_edge_maker(internal_edges['upper'],1,f"{road_length}",J1_0_shape_string,'13.89',intersection_net,net_header_xml)
+    internal_edge_maker(internal_edges['lower'],1,f"{road_length}",J1_1_shape_string,'13.89',intersection_net,net_header_xml)
     # Make dead end Junctions
-    dead_end_junction_maker('J0',f"{J0_shape['x_0']}",f"{J0_shape['y_0']}",'-E0_0','',J0_shape_string,intersection_net,net_header_xml)
-    dead_end_junction_maker('J2',f"{J2_shape['x_0']}",f"{J2_shape['y_0']}",'E1_0','',J2_shape_string,intersection_net,net_header_xml)
+    dead_end_junction_maker(junctions['J_start'],f"{J0_shape['x_0']}",f"{J0_shape['y_0']}",jstart_inclanes,'',J0_shape_string,intersection_net,net_header_xml)
+    dead_end_junction_maker(junctions['J_end'],f"{J2_shape['x_0']}",f"{J2_shape['y_0']}",jend_inclanes,'',J2_shape_string,intersection_net,net_header_xml)
     # Make priority junctions
-    priority_junction_maker('J1',f"{x_init + road_length}",f"{y_init + lane_width}",'-E1_0 E0_0',':J1_0_0 :J1_1_0',J1_shape_string,intersection_net,num_of_reqs
+    priority_junction_maker(junctions['J_mid'],f"{x_init + road_length}",f"{y_init + lane_width}",jmid_inclanes,':J1_0_0 :J1_1_0',J1_shape_string,intersection_net,num_of_reqs
                             ,req_responses,req_foes,req_cont,net_header_xml)
     # Make Connections
-    connection_maker('-E1','-E0','0','0','J1_0_0','s','M',intersection_net,net_header_xml)
-    connection_maker('E0', 'E1', '0', '0', 'J1_1_0', 's', 'M', intersection_net, net_header_xml)
-    connection_maker('J1_0', '-E0', '0', '0', '', 's', 'M', intersection_net, net_header_xml)
-    connection_maker('J1_1', 'E1', '0', '0', '', 's', 'M', intersection_net, net_header_xml)
+    connection_maker(edges['E1_neg'],edges['E0_neg'],'0','0','J1_0_0','s','M',intersection_net,net_header_xml)
+    connection_maker(edges['E0_pos'], edges['E1_pos'], '0', '0', 'J1_1_0', 's', 'M', intersection_net, net_header_xml)
+    connection_maker('J1_0', edges['E0_neg'], '0', '0', '', 's', 'M', intersection_net, net_header_xml)
+    connection_maker('J1_1', edges['E1_pos'], '0', '0', '', 's', 'M', intersection_net, net_header_xml)
     # Make XML net file
     intersection_net_xml = intersection_net.toprettyxml(indent="\t")
     with open(file_name, 'w') as xml_file:
