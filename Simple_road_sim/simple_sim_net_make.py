@@ -15,12 +15,6 @@ from Simple_road_sim.simple_sim_utils import calculate_conv_boundaries
 
 def simple_sim_net_make(simple_sim_args_object,road_length,angle_degrees,edge_0,edge_1,junction_0,junction_1,speed,
                         num_of_lanes):
-    #edge_0 = 'E0'# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    #edge_1 = 'E1'# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    #junction_0 = "J0"# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    #junction_1 = "J1"# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    #speed = "13.89"# TO BE ENTERED FROM EXTERNAL(DEBUG)
-    #num_of_lanes = 4# TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Create lane names
     inc_lanes_j1 = ""
     lane_list = []

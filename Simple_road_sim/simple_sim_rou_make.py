@@ -7,9 +7,6 @@ from Simple_road_sim import routesObject, carObject
 
 
 def simple_sim_rou_make(simple_sim_args_object,edge_0,edge_1,num_of_cars_lane_lf,num_of_cars_lane_rl,interval_lf):
-    # num_of_cars_lane_lf = 7  TO BE ENTERED FROM EXTERNAL(DEBUG)
-    # num_of_cars_lane_rl = 5  TO BE ENTERED FROM EXTERNAL(DEBUG)
-    # interval_lf = 0.50  TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Make XML Object
     simple_rou = minidom.Document()
     # Add routes header
