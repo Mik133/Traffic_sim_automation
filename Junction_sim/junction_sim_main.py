@@ -22,8 +22,8 @@ class split_road_params:
                             'J_end':'J2',}
         self.internal_edges = {'upper':'J1_0',
                                'lower':'J1_1',}
-        self.num_of_rl_lanes = 1 # lanes right to left
-        self.num_of_lr_lanes = 1 # lanes left to right
+        self.num_of_rl_lanes = 3 # lanes right to left
+        self.num_of_lr_lanes = 5 # lanes left to right
 
 def input_header_make(net_file_name,rou_file_name,net_xml):
     input_xml = net_xml.createElement('input')
