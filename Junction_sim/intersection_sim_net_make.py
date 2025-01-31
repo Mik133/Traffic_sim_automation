@@ -7,9 +7,14 @@ import Simple_road_sim.netHeaderObject as nho
 import Simple_road_sim.locationHeaderObject as lho
 
 from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITIVE_SIDE, NEGATIVE_SIDE, \
-    make_regular_junction_shapes, calc_conv_boundary, shape_to_string, regular_edge_xml_maker, dead_end_junction_maker, \
+    make_regular_junction_shapes, calc_conv_boundary_split, shape_to_string, regular_edge_xml_maker, \
+    dead_end_junction_maker, \
     jucntion_shape_to_string_six_vals, make_priority_junction_shapes, junction_shape_to_string_eight_vals, \
-    priority_junction_maker, connection_maker, internal_edge_shapes, internal_edge_maker
+    priority_junction_maker, connection_maker, internal_edge_shapes, internal_edge_maker, calc_conv_boundary_half_junc, \
+    make_regular_edge_shape_vertical, GOING_UP, GOING_DOWN, dead_end_junction_six_vals
+from Simple_road_sim.edgeObject import edgeObject
+from TEST import road_length
+
 
 # Objects import
 
@@ -60,7 +65,7 @@ def split_road_sim_net_make(file_name,road_length,edges,junctions,num_of_rl_lane
     net_header_xml = net_header_obj.to_XML(intersection_net)
     intersection_net.appendChild(net_header_xml)
     # Create Location entry
-    conv_boundary = calc_conv_boundary(x_init,y_init,road_length,lane_width)
+    conv_boundary = calc_conv_boundary_split(x_init,y_init,road_length,lane_width)
     location_header_obj = lho.locationHeader(conv_boundary)
     location_header_xml = location_header_obj.to_XML(intersection_net)
     net_header_xml.appendChild(location_header_xml)
@@ -112,11 +117,63 @@ def split_road_sim_net_make(file_name,road_length,edges,junctions,num_of_rl_lane
         connection_maker(internal_edges['lower'],edges['E0_pos'],f"{lane_to_connect}",f"{lane_to_connect}",
                          '','s','M',intersection_net,net_header_xml)
 
-    # connection_maker(edges['E1_neg'],edges['E0_neg'],'0','0','J1_0_0','s','M',intersection_net,net_header_xml)
-    # connection_maker(edges['E0_pos'], edges['E1_pos'], '0', '0', 'J1_1_0', 's', 'M', intersection_net, net_header_xml)
-    # connection_maker('J1_0', edges['E0_neg'], '0', '0', '', 's', 'M', intersection_net, net_header_xml)
-    # connection_maker('J1_1', edges['E1_pos'], '0', '0', '', 's', 'M', intersection_net, net_header_xml)
-    # Make XML net file
     intersection_net_xml = intersection_net.toprettyxml(indent="\t")
     with open(file_name, 'w') as xml_file:
         xml_file.write(intersection_net_xml)
+
+def half_junction_sim_net_make(edges,de_junc,central_junc):
+    # Initial vars
+    file_name = 'half_junc.net.xml'
+    road_length = 50
+    x_init = 0.00
+    y_init = 0.00
+    lane_width = 2
+    # Create lane values
+    # Make the sim xml file
+    half_junc_net = minidom.Document()
+    # Make net header and append
+    net_header = nho.netHeader('1.16','5','5.50')
+    net_header_xml = net_header.to_XML(half_junc_net)
+    half_junc_net.appendChild(net_header_xml)
+    # Make location header and append to net
+    conv_boundary = calc_conv_boundary_half_junc(road_length)
+    location_header = lho.locationHeader(conv_boundary)
+    location_header_xml = location_header.to_XML(half_junc_net)
+    net_header_xml.appendChild(location_header_xml)
+    # Make regular edges
+    # E0 edges
+    e0p_shape = make_regular_edge_shapes(road_length,x_init,y_init,lane_width,POSITIVE_SIDE)
+    e0p_shape_string = shape_to_string(e0p_shape)
+    regular_edge_xml_maker(edges['l_l'],de_junc['left'],central_junc,1,f"{road_length}",
+                           e0p_shape_string,'13.89',half_junc_net,net_header_xml)
+    e0n_shape = make_regular_edge_shapes(road_length,e0p_shape['x_f'],e0p_shape['y_f'],lane_width,NEGATIVE_SIDE)
+    e0n_shape_string = shape_to_string(e0n_shape)
+    regular_edge_xml_maker(edges['l_h'],central_junc,de_junc['left'],1,f"{road_length}",
+                           e0n_shape_string,'13.89',half_junc_net,net_header_xml)
+    # E1 edges
+    e1p_shape = make_regular_edge_shapes(road_length,x_init + road_length,y_init,lane_width,POSITIVE_SIDE)
+    e1p_shape_string = shape_to_string(e1p_shape)
+    regular_edge_xml_maker(edges['r_l'],central_junc,de_junc['right'],1,f"{road_length}",
+                           e1p_shape_string,'13.89',half_junc_net,net_header_xml)
+    e1n_shape = make_regular_edge_shapes(road_length,e1p_shape['x_f'],e0p_shape['y_f'],lane_width,NEGATIVE_SIDE)
+    e1n_shape_string = shape_to_string(e1n_shape)
+    regular_edge_xml_maker(edges['r_h'],de_junc['right'],central_junc,1,f"{road_length}",
+                           e1n_shape_string,'13.89',half_junc_net,net_header_xml)
+    # E2 edges
+    e2p_shape = make_regular_edge_shape_vertical(road_length,e0p_shape['x_f'],e0p_shape['y_f'],lane_width,GOING_UP)
+    e2p_shape_string = shape_to_string(e2p_shape)
+    regular_edge_xml_maker(edges['u_r'],central_junc,de_junc['up'],1,f"{road_length}",
+                           e2p_shape_string,'13.89',half_junc_net,net_header_xml)
+    e2n_shape = make_regular_edge_shape_vertical(road_length,x_init,e2p_shape['y_f'],lane_width,GOING_DOWN)
+    e2n_shape_string = shape_to_string(e2n_shape)
+    regular_edge_xml_maker(edges['u_l'],de_junc['up'],central_junc,1,f"{road_length}",
+                           e2n_shape_string,'13.89',half_junc_net,net_header_xml)
+    # Dead end junctions
+    j0_shape = dead_end_junction_six_vals(x_init,y_init,lane_width)
+    j0_shape_string = jucntion_shape_to_string_six_vals(j0_shape)
+    dead_end_junction_maker(de_junc['left'],f"{x_init}",f"{y_init}",'-E0_0','',
+                            j0_shape_string,half_junc_net,net_header_xml)
+    # Write to file
+    half_junc_xml = half_junc_net.toprettyxml(indent="\t")
+    with open(file_name, 'w') as xml_file:
+        xml_file.write(half_junc_xml)

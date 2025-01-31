@@ -4,6 +4,8 @@ from PIL.PdfParser import IndirectObjectDef
 # Consts
 NEGATIVE_SIDE = "Negative"
 POSITIVE_SIDE = "Positive"
+GOING_DOWN = "down"
+GOING_UP = "up"
 
 # Imports
 from Junction_sim import junctionObject
@@ -23,6 +25,18 @@ def make_regular_edge_shapes(road_length,x_init,y_init,lane_width,side):
              'x_f':x_final,
              'y_0':y_init,
              'y_f':y_final}
+    return shape
+
+def make_regular_edge_shape_vertical(road_length,x_init,y_init,lane_width,side):
+    if side == GOING_UP:
+        y_final = y_init + road_length
+    else:
+        y_final = y_init - road_length
+    x_final = x_init + lane_width
+    shape = {'x_0': x_init,
+             'x_f': x_final,
+             'y_0': y_init,
+             'y_f': y_final}
     return shape
 
 def make_regular_junction_shapes(x_init,y_init,lane_width):
@@ -57,6 +71,16 @@ def make_priority_junction_shapes(x_init,y_init,lane_width,road_length):
              'y_4':y_4,}
     return shape
 
+def dead_end_junction_six_vals(x_init,y_init,lane_width):
+    shape = {'x_0':x_init,
+             'y_0':y_init + 0.5,
+             'x_m':x_init - 0.02,
+             'y_m':y_init + lane_width,
+             'x_f':x_init,
+             'y_f':y_init}
+    return shape
+
+
 def internal_edge_shapes(x_init,y_init,lane_width,road_length,side):
     x_1 = x_init + road_length + 0.1
     y_1 = y_init + lane_width
@@ -74,7 +98,11 @@ def internal_edge_shapes(x_init,y_init,lane_width,road_length,side):
                  'y_f':y_1,}
     return shape
 
-def calc_conv_boundary(x_init, y_init, road_length, lane_width):
+def calc_conv_boundary_half_junc(road_length):
+    conv_boundary = [0.00 - 1,0.00 - 1.5,road_length * 2.00 + 5,road_length + 5.00]
+    return conv_boundary
+
+def calc_conv_boundary_split(x_init, y_init, road_length, lane_width):
     conv_boundary = [x_init,y_init,x_init + road_length * 2,y_init + lane_width * 2]
     return conv_boundary
 

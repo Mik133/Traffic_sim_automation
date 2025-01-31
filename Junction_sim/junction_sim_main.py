@@ -22,8 +22,38 @@ class split_road_params:
                             'J_end':'J2',}
         self.internal_edges = {'upper':'J1_0',
                                'lower':'J1_1',}
-        self.num_of_rl_lanes = 3 # lanes right to left
-        self.num_of_lr_lanes = 5 # lanes left to right
+        self.num_of_rl_lanes = 4 # lanes right to left
+        self.num_of_lr_lanes = 7 # lanes left to right
+
+class HalfJunctionParams:
+    def __init__(self):
+        self.hj_edges = {'l_l':'E0',     # Left low
+                         'l_h':'-E0',    # Left high
+                         'r_l':'E1',     # Right low
+                         'r_h':'-E1',    # Right high
+                         'u_l':'-E2',    # Upper left
+                         'u_r':'E2',}    # Upper right
+        self.dead_end_junc = {'left':'J0',
+                              'right':'J2',
+                              'up':'J3'}
+        self.central_junc = 'J1'
+        self.internal_edges = {'rh_ur':'J1_0',
+                               'rh_lh':'J1_1',
+                               'll_rl':'J1_2',
+                               'll_ur':'J1_3',
+                               'ul_lh':'J1_4',
+                               'ul_rl':'J1_5'}
+        self.internal_junc = 'J1_6_0'
+        self.turn_direction = {'straight':'s',
+                               'left':'l',
+                               'right':'r'}
+        self.connect_state = {'priority':'O',
+                              'optional':'o',
+                              'Minor_h':'M',
+                              'Minor_l':'M',}
+        self.junction_types = {'dead_end':'dead_end',
+                               'internal':'internal',
+                               'traffic_light':'traffic_light'}
 
 def input_header_make(net_file_name,rou_file_name,net_xml):
     input_xml = net_xml.createElement('input')
@@ -58,4 +88,10 @@ def split_sim_maker():
     with open(filenames.cfg_file, 'w') as xml_file:
         xml_file.write(split_cfg_xml)
     print("Simple simulation files generated")
+
+def half_junction_maker():
+    half_junc_args = HalfJunctionParams()
+    intersection_sim_net_make.half_junction_sim_net_make(half_junc_args.hj_edges,
+                                                         half_junc_args.dead_end_junc,
+                                                         half_junc_args.central_junc)
 
