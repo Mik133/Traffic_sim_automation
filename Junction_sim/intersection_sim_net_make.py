@@ -11,7 +11,7 @@ from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITI
     dead_end_junction_maker, \
     jucntion_shape_to_string_six_vals, make_priority_junction_shapes, junction_shape_to_string_eight_vals, \
     priority_junction_maker, connection_maker, internal_edge_shapes, internal_edge_maker, calc_conv_boundary_half_junc, \
-    make_regular_edge_shape_vertical, GOING_UP, GOING_DOWN, dead_end_junction_six_vals
+    make_regular_edge_shape_vertical, GOING_UP, GOING_DOWN, dead_end_junction_six_vals, make_lanes_string
 from Simple_road_sim.edgeObject import edgeObject
 from TEST import road_length
 
@@ -121,7 +121,7 @@ def split_road_sim_net_make(file_name,road_length,edges,junctions,num_of_rl_lane
     with open(file_name, 'w') as xml_file:
         xml_file.write(intersection_net_xml)
 
-def half_junction_sim_net_make(edges,de_junc,central_junc):
+def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spec):
     # Initial vars
     file_name = 'half_junc.net.xml'
     road_length = 50
@@ -173,6 +173,38 @@ def half_junction_sim_net_make(edges,de_junc,central_junc):
     j0_shape_string = jucntion_shape_to_string_six_vals(j0_shape)
     dead_end_junction_maker(de_junc['left'],f"{x_init}",f"{y_init}",'-E0_0','',
                             j0_shape_string,half_junc_net,net_header_xml)
+    j2_shape = dead_end_junction_six_vals(e1n_shape['x_0'],e1p_shape['y_0'],lane_width)
+    j2_shape_string = jucntion_shape_to_string_six_vals(j2_shape)
+    dead_end_junction_maker(de_junc['right'],f"{e1n_shape['x_0']}",f"{e1p_shape['y_0']}",'E1_0','',
+                            j2_shape_string,half_junc_net,net_header_xml)
+    j3_shape = dead_end_junction_six_vals(e2n_shape['x_0'],e2n_shape['y_0'],lane_width)
+    j3_shape_string = jucntion_shape_to_string_six_vals(j3_shape)
+    dead_end_junction_maker(de_junc['up'],f"{e2n_shape['x_0']}",f"{e2n_shape['y_0']}",'E2_0','',
+                            j3_shape_string,half_junc_net,net_header_xml)
+    # Make dead end edges lanes strings
+    e0p_lanes = make_lanes_string(1,edges['l_l'])
+    e0n_lanes = make_lanes_string(1,edges['l_h'])
+    e1p_lanes = make_lanes_string(1,edges['r_l'])
+    e1n_lanes = make_lanes_string(1,edges['r_h'])
+    e2p_lanes = make_lanes_string(1,edges['u_r'])
+    e2n_lanes = make_lanes_string(1,edges['u_l'])
+    # Make internal edges lane strings
+    j1_0_lanes = make_lanes_string(1,int_edges['rh_ur'])
+    all_internal = ":" + j1_0_lanes + " "
+    j1_1_lanes = make_lanes_string(1,int_edges['rh_lh'])
+    all_internal += (":" + j1_1_lanes + " ")
+    j1_2_lanes = make_lanes_string(1,int_edges['ll_rl'])
+    all_internal += (":" + j1_2_lanes + " ")
+    j1_3_lanes = make_lanes_string(1,int_edges['ll_ur'])
+    # all_internal += (":" + j1_3_lanes + " ")
+    j1_4_lanes = make_lanes_string(1,int_edges['ul_lh'])
+    all_internal += (":" + j1_4_lanes + " ")
+    j1_5_lanes = make_lanes_string(1,int_edges['ul_rl'])
+    all_internal += (":" + j1_5_lanes + " ")
+    j1_6_lanes = make_lanes_string(1,int_edge_spec)
+    all_internal += (":" + j1_6_lanes + " ")
+    # Make internal edges
+
     # Write to file
     half_junc_xml = half_junc_net.toprettyxml(indent="\t")
     with open(file_name, 'w') as xml_file:

@@ -43,7 +43,7 @@ class HalfJunctionParams:
                                'll_ur':'J1_3',
                                'ul_lh':'J1_4',
                                'ul_rl':'J1_5'}
-        self.internal_junc = 'J1_6_0'
+        self.internal_special = 'J1_6'
         self.turn_direction = {'straight':'s',
                                'left':'l',
                                'right':'r'}
@@ -93,5 +93,7 @@ def half_junction_maker():
     half_junc_args = HalfJunctionParams()
     intersection_sim_net_make.half_junction_sim_net_make(half_junc_args.hj_edges,
                                                          half_junc_args.dead_end_junc,
-                                                         half_junc_args.central_junc)
+                                                         half_junc_args.central_junc,
+                                                         half_junc_args.internal_edges,
+                                                         half_junc_args.internal_special)
 

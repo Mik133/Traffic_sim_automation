@@ -142,3 +142,9 @@ def internal_edge_maker(e_id,num_of_lanes,lane_length,lane_shapes,speed,net_xml,
     new_edge = edgeObject.InternalEdgeObject(e_id,num_of_lanes,lane_length,lane_shapes,speed,net_xml)
     new_edge_xml = new_edge.to_XML()
     net_header_xml.appendChild(new_edge_xml)
+
+def make_lanes_string(num_of_lanes,edge):
+    for lane in range(num_of_lanes):
+        lanes_s = edge + "_" + f"{lane} "
+    lanes_s = lanes_s[:-1]
+    return lanes_s
