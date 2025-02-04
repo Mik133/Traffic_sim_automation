@@ -11,7 +11,8 @@ from Junction_sim.intersection_sim_utils import make_regular_edge_shapes, POSITI
     dead_end_junction_maker, \
     jucntion_shape_to_string_six_vals, make_priority_junction_shapes, junction_shape_to_string_eight_vals, \
     priority_junction_maker, connection_maker, internal_edge_shapes, internal_edge_maker, calc_conv_boundary_half_junc, \
-    make_regular_edge_shape_vertical, GOING_UP, GOING_DOWN, dead_end_junction_six_vals, make_lanes_string
+    make_regular_edge_shape_vertical, GOING_UP, GOING_DOWN, dead_end_junction_six_vals, make_lanes_string, \
+    internal_edge_ten_points_type_j1_0, internal_shape_to_string_ten_points
 from Simple_road_sim.edgeObject import edgeObject
 from TEST import road_length
 
@@ -204,6 +205,9 @@ def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spe
     j1_6_lanes = make_lanes_string(1,int_edge_spec)
     all_internal += (":" + j1_6_lanes + " ")
     # Make internal edges
+    j1_0_shape = internal_edge_ten_points_type_j1_0(road_length - 5.00,y_init + 2.00)
+    j1_0_string = internal_shape_to_string_ten_points(j1_0_shape)
+    internal_edge_maker(int_edges['rh_ur'],1,"9.00",j1_0_string,'6.5',half_junc_net,net_header_xml)
 
     # Write to file
     half_junc_xml = half_junc_net.toprettyxml(indent="\t")

@@ -98,6 +98,19 @@ def internal_edge_shapes(x_init,y_init,lane_width,road_length,side):
                  'y_f':y_1,}
     return shape
 
+def internal_edge_ten_points_type_j1_0(x_init,y_init):
+    shape = {'x_1':x_init,'y_1':y_init,
+             'x_2':x_init - 2.50,'y_2':y_init + 0.40,
+             'x_3':x_init - 4.20,'y_3':y_init + 0.50,
+             'x_4':x_init - 5.20,'y_4':y_init + 3.20,
+             'x_5':x_init - 5.50,'y_5':y_init + 4.80}
+    return shape
+
+def internal_shape_to_string_ten_points(shape):
+    return (f"{shape['x_1']},{shape['y_1']} {shape['x_2']},{shape['y_2']} {shape['x_3']},{shape['y_3']} "
+            f"{shape['x_4']},{shape['y_4']} {shape['x_5']},{shape['y_5']}")
+
+
 def calc_conv_boundary_half_junc(road_length):
     conv_boundary = [0.00 - 1,0.00 - 1.5,road_length * 2.00 + 5,road_length + 5.00]
     return conv_boundary
