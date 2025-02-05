@@ -80,6 +80,11 @@ def dead_end_junction_six_vals(x_init,y_init,lane_width):
              'y_f':y_init}
     return shape
 
+def internal_edge_six_points_type_1_3(x_init,y_init):
+    shape = {'x_0':x_init,'y_0':y_init,
+             'x_m':x_init + 3.85,'y_m':y_init + 0.50,
+             'x_f':x_init + 4.00,'y_f':y_init + 0.60}
+    return shape
 
 def internal_edge_shapes(x_init,y_init,lane_width,road_length,side):
     x_1 = x_init + road_length + 0.1
@@ -105,6 +110,16 @@ def internal_edge_ten_points_type_j1_0(x_init,y_init):
              'x_4':x_init - 5.20,'y_4':y_init + 3.20,
              'x_5':x_init - 5.50,'y_5':y_init + 4.80}
     return shape
+
+def internal_edge_four_points_type(x_init,y_init,side):
+    if side == POSITIVE_SIDE:
+        shape = {'x_0':x_init,'y_0':y_init,
+                 'x_f':x_init -  14.50,'y_f':y_init + 0.10}
+    else:
+        shape = {'x_0':x_init,'y_0':y_init,
+                 'x_f':x_init +  14.50,'y_f':y_init - 0.10}
+    return shape
+
 
 def internal_shape_to_string_ten_points(shape):
     return (f"{shape['x_1']},{shape['y_1']} {shape['x_2']},{shape['y_2']} {shape['x_3']},{shape['y_3']} "
