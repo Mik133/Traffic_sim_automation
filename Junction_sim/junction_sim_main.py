@@ -37,6 +37,7 @@ class HalfJunctionParams:
                               'right':'J2',
                               'up':'J3'}
         self.central_junc = 'J1'
+        self.int_junc = 'J1_6_0'
         self.internal_edges = {'rh_ur':'J1_0',
                                'rh_lh':'J1_1',
                                'll_rl':'J1_2',

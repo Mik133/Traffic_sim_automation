@@ -76,9 +76,38 @@ class JunctionPriorityObject:
             junction_xml.appendChild(self.reqs[req].to_XML())
         return junction_xml
 
+class JunctionInternalObject:
+    def __init__(self,j_id,x_j,y_j,inc_lanes,int_lanes,net_xml,req_responses,req_foes,req_cont,num_of_req):
+        self.id = j_id
+        self.type = 'internal'
+        self.x_j = x_j
+        self.y_j = y_j
+        self.inc_lanes = inc_lanes
+        self.int_lanes = int_lanes
+        self.net_xml = net_xml
+        self.num_of_req = num_of_req
+        self.req_responses = req_responses
+        self.req_foes = req_foes
+        self.req_cont = req_cont
+        self.reqs = []
 
+    def make_jreqs(self):
+        for req in range(self.num_of_req):
+            new_req = JRequestObject(f"{req}",self.req_responses[req],self.req_foes[req],self.req_cont[req],self.net_xml)
+            self.reqs.append(new_req)
 
-
+    def to_XML(self):
+        junction_xml = self.net_xml.createElement('junction')
+        junction_xml.setAttribute('id',self.id)
+        junction_xml.setAttribute('type',self.type)
+        junction_xml.setAttribute('x',self.x_j)
+        junction_xml.setAttribute('y',self.y_j)
+        junction_xml.setAttribute('incLanes',self.inc_lanes)
+        junction_xml.setAttribute('intLanes',self.int_lanes)
+        self.make_jreqs()
+        for req in range(self.num_of_req):
+            junction_xml.appendChild(self.reqs[req].to_XML())
+        return junction_xml
 
 
 
