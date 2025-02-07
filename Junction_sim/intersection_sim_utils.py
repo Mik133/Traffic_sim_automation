@@ -111,6 +111,29 @@ def internal_edge_ten_points_type_j1_0(x_init,y_init):
              'x_5':x_init - 5.50,'y_5':y_init + 4.80}
     return shape
 
+def internal_edge_ten_points_type_j1_4(x_init,y_init):
+    shape = {'x_1':x_init,'y_1':y_init,
+             'x_2':x_init - 0.30,'y_2':y_init - 2.50,
+             'x_3':x_init - 2.40,'y_3':y_init - 4.20,
+             'x_4':x_init - 3.10,'y_4':y_init - 5.15,
+             'x_5':x_init - 5.60,'y_5':y_init - 5.60}
+    return shape
+
+def internal_edge_ten_points_type_j1_5(x_init,y_init):
+    shape = {'x_1':x_init,'y_1':y_init,
+             'x_2':x_init + 0.60,'y_2':y_init - 3.90,
+             'x_3':x_init + 2.25,'y_3':y_init - 6.60,
+             'x_4':x_init + 5.00,'y_4':y_init - 8.30,
+             'x_5':x_init + 8.80,'y_5':y_init - 8.90}
+    return shape
+
+def internal_edge_eight_points_type_j1_6(x_init,y_init):
+    shape = {'x_1': x_init, 'y_1': y_init,
+             'x_2': x_init + 2.60, 'y_2': y_init + 1.60,
+             'x_3': x_init + 4.30, 'y_3': y_init + 4.30,
+             'x_4': x_init + 4.80, 'y_4': y_init + 8.20}
+    return shape
+
 def internal_edge_four_points_type(x_init,y_init,side):
     if side == POSITIVE_SIDE:
         shape = {'x_0':x_init,'y_0':y_init,
