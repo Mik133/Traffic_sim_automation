@@ -51,7 +51,7 @@ class HalfJunctionParams:
         self.connect_state = {'priority':'O',
                               'optional':'o',
                               'Minor_h':'M',
-                              'Minor_l':'M',}
+                              'Minor_l':'m',}
         self.junction_types = {'dead_end':'dead_end',
                                'internal':'internal',
                                'traffic_light':'traffic_light'}
@@ -96,5 +96,8 @@ def half_junction_maker():
                                                          half_junc_args.dead_end_junc,
                                                          half_junc_args.central_junc,
                                                          half_junc_args.internal_edges,
-                                                         half_junc_args.internal_special)
+                                                         half_junc_args.internal_special,
+                                                         half_junc_args.int_junc,
+                                                         half_junc_args.turn_direction,
+                                                         half_junc_args.connect_state)
 

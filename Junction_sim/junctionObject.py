@@ -76,10 +76,10 @@ class JunctionPriorityObject:
             junction_xml.appendChild(self.reqs[req].to_XML())
         return junction_xml
 
-class JunctionInternalObject:
-    def __init__(self,j_id,x_j,y_j,inc_lanes,int_lanes,net_xml,req_responses,req_foes,req_cont,num_of_req):
+class JunctionInternalTrafficLightObject:
+    def __init__(self,j_id,j_type,x_j,y_j,inc_lanes,int_lanes,net_xml,req_responses,req_foes,req_cont,num_of_req):
         self.id = j_id
-        self.type = 'internal'
+        self.type = 'traffic_light'
         self.x_j = x_j
         self.y_j = y_j
         self.inc_lanes = inc_lanes
