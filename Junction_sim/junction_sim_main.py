@@ -1,6 +1,8 @@
 
 # Imports:
 from xml.dom import minidom
+
+from Junction_sim.intersection_rou_make import half_junc_rou_maker
 from Simple_road_sim.simple_sim_main import configuration_header_maker
 from Junction_sim import intersection_sim_net_make
 from Junction_sim import intersection_rou_make
@@ -55,6 +57,15 @@ class HalfJunctionParams:
         self.junction_types = {'dead_end':'dead_end',
                                'internal':'internal',
                                'traffic_light':'traffic_light'}
+        self.file_names = {'network':'half_junc.net.xml',
+                           'rou':'half_junc.rou.xml',
+                           'cfg':'half_junc.sumocfg',}
+        self.car_flow = {'flow0':'250.00',
+                         'flow1':'250.00',
+                         'flow2':'250.00',
+                         'flow3':'250.00',
+                         'flow4':'250.00',
+                         'flow5':'250.00',}
 
 def input_header_make(net_file_name,rou_file_name,net_xml):
     input_xml = net_xml.createElement('input')
@@ -88,7 +99,7 @@ def split_sim_maker():
     split_cfg_xml = cfg_file.toprettyxml(indent="\t")
     with open(filenames.cfg_file, 'w') as xml_file:
         xml_file.write(split_cfg_xml)
-    print("Simple simulation files generated")
+    print("Split road simulation files generated")
 
 def half_junction_maker():
     half_junc_args = HalfJunctionParams()
@@ -99,5 +110,21 @@ def half_junction_maker():
                                                          half_junc_args.internal_special,
                                                          half_junc_args.int_junc,
                                                          half_junc_args.turn_direction,
-                                                         half_junc_args.connect_state)
+                                                         half_junc_args.connect_state,
+                                                         half_junc_args.file_names['network'])
+    half_junc_rou_maker(half_junc_args.hj_edges,
+                        half_junc_args.car_flow,
+                        half_junc_args.file_names['rou'])
+    cfg_file = minidom.Document()
+    cfg_header_xml = configuration_header_maker(cfg_file)
+    cfg_file.appendChild(cfg_header_xml)
+    cfg_header_xml.appendChild(input_header_make(half_junc_args.file_names['network'],
+                                                 half_junc_args.file_names['rou'],
+                                                 cfg_file))
+    half_junc_cfg_xml = cfg_file.toprettyxml(indent="\t")
+    with open(half_junc_args.file_names['cfg'], 'w') as xml_file:
+        xml_file.write(half_junc_cfg_xml)
+    print("Half junction simulation files generated")
+
+
 

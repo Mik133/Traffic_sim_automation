@@ -125,9 +125,8 @@ def split_road_sim_net_make(file_name,road_length,edges,junctions,num_of_rl_lane
     with open(file_name, 'w') as xml_file:
         xml_file.write(intersection_net_xml)
 
-def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spec,int_junc,turn_dir,connect_st):
-    # Initial vars
-    file_name = 'half_junc.net.xml'
+def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spec,int_junc,turn_dir,connect_st,file_name):
+    # Initial vars:
     road_length = 85
     x_init = 0.00
     y_init = 0.00
