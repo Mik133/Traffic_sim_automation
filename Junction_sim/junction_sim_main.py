@@ -26,6 +26,7 @@ class split_road_params:
                                'lower':'J1_1',}
         self.num_of_rl_lanes = 4 # lanes right to left
         self.num_of_lr_lanes = 7 # lanes left to right
+        self.vhs_per_hr = '500.00'
 
 class HalfJunctionParams:
     def __init__(self):
@@ -66,6 +67,17 @@ class HalfJunctionParams:
                          'flow3':'250.00',
                          'flow4':'250.00',
                          'flow5':'250.00',}
+        self.traffic_light_times = ['42','3','42','3']
+        self.tl_state = ['GGGgrr','yyyyrr','GrrrGG','yrrryy']
+        self.num_of_lanes = {'left_low' : 1,
+                             'left_high' : 1,
+                             'right_low' : 1,
+                             'right_high' : 1,
+                             'upper_right' : 1,
+                             'upper_left' : 1}
+        self.total_lanes = (self.num_of_lanes['left_low'] + self.num_of_lanes['left_high'] +
+                            self.num_of_lanes['right_low'] + self.num_of_lanes['right_high'] +
+                            self.num_of_lanes['upper_right'] + self.num_of_lanes['upper_left'] )
 
 def input_header_make(net_file_name,rou_file_name,net_xml):
     input_xml = net_xml.createElement('input')
@@ -94,7 +106,9 @@ def split_sim_maker():
     intersection_rou_make.split_road_rou_make(split_net_param.split_edges['E0_pos'],
                                               split_net_param.split_edges['E0_neg'],
                                               split_net_param.split_edges['E1_pos'],
-                                              split_net_param.split_edges['E1_neg'],'500.00',filenames.rou_file)
+                                              split_net_param.split_edges['E1_neg'],
+                                              split_net_param.vhs_per_hr,
+                                              filenames.rou_file)
     cfg_header_xml.appendChild(input_header_make(filenames.net_file,filenames.rou_file,cfg_file))
     split_cfg_xml = cfg_file.toprettyxml(indent="\t")
     with open(filenames.cfg_file, 'w') as xml_file:
@@ -111,7 +125,11 @@ def half_junction_maker():
                                                          half_junc_args.int_junc,
                                                          half_junc_args.turn_direction,
                                                          half_junc_args.connect_state,
-                                                         half_junc_args.file_names['network'])
+                                                         half_junc_args.file_names['network'],
+                                                         half_junc_args.traffic_light_times,
+                                                         half_junc_args.tl_state,
+                                                         half_junc_args.num_of_lanes,
+                                                         half_junc_args.total_lanes)
     half_junc_rou_maker(half_junc_args.hj_edges,
                         half_junc_args.car_flow,
                         half_junc_args.file_names['rou'])

@@ -125,13 +125,13 @@ def split_road_sim_net_make(file_name,road_length,edges,junctions,num_of_rl_lane
     with open(file_name, 'w') as xml_file:
         xml_file.write(intersection_net_xml)
 
-def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spec,int_junc,turn_dir,connect_st,file_name):
+def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spec,int_junc,turn_dir,connect_st,
+                               file_name,tl_times,tl_state,num_of_lanes,total_lanes_q):
     # Initial vars:
     road_length = 85
     x_init = 0.00
     y_init = 0.00
     lane_width = 2
-    total_lanes_q = 6
     # Create lane values
     # Make the sim xml file
     half_junc_net = minidom.Document()
@@ -186,46 +186,46 @@ def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spe
     dead_end_junction_maker(de_junc['up'],f"{e2n_shape['x_0']}",f"{e2n_shape['y_0']}",'E2_0','',
                             j3_shape_string,half_junc_net,net_header_xml)
     # Make dead end edges lanes strings
-    e0p_lanes = make_lanes_string(1,edges['l_l'])
-    e0n_lanes = make_lanes_string(1,edges['l_h'])
-    e1p_lanes = make_lanes_string(1,edges['r_l'])
-    e1n_lanes = make_lanes_string(1,edges['r_h'])
-    e2p_lanes = make_lanes_string(1,edges['u_r'])
-    e2n_lanes = make_lanes_string(1,edges['u_l'])
+    e0p_lanes = make_lanes_string(num_of_lanes['left_low'],edges['l_l'])
+    e0n_lanes = make_lanes_string(num_of_lanes['left_high'],edges['l_h'])
+    e1p_lanes = make_lanes_string(num_of_lanes['right_low'],edges['r_l'])
+    e1n_lanes = make_lanes_string(num_of_lanes['right_high'],edges['r_h'])
+    e2p_lanes = make_lanes_string(num_of_lanes['upper_right'],edges['u_r'])
+    e2n_lanes = make_lanes_string(num_of_lanes['upper_left'],edges['u_l'])
     # Make internal edges lane strings
-    j1_0_lanes = make_lanes_string(1,int_edges['rh_ur'])
+    j1_0_lanes = make_lanes_string(num_of_lanes['right_high'],int_edges['rh_ur'])
     all_internal_lanes = ":" + j1_0_lanes + " "
-    j1_1_lanes = make_lanes_string(1,int_edges['rh_lh'])
+    j1_1_lanes = make_lanes_string(num_of_lanes['right_high'],int_edges['rh_lh'])
     all_internal_lanes += (":" + j1_1_lanes + " ")
-    j1_2_lanes = make_lanes_string(1,int_edges['ll_rl'])
+    j1_2_lanes = make_lanes_string(num_of_lanes['left_low'],int_edges['ll_rl'])
     all_internal_lanes += (":" + j1_2_lanes + " ")
-    j1_3_lanes = make_lanes_string(1,int_edges['ll_ur'])
+    j1_3_lanes = make_lanes_string(num_of_lanes['left_low'],int_edges['ll_ur'])
     # all_internal += (":" + j1_3_lanes + " ")
-    j1_4_lanes = make_lanes_string(1,int_edges['ul_lh'])
+    j1_4_lanes = make_lanes_string(num_of_lanes['upper_left'],int_edges['ul_lh'])
     all_internal_lanes += (":" + j1_4_lanes + " ")
-    j1_5_lanes = make_lanes_string(1,int_edges['ul_rl'])
+    j1_5_lanes = make_lanes_string(num_of_lanes['upper_left'],int_edges['ul_rl'])
     all_internal_lanes += (":" + j1_5_lanes + " ")
     j1_6_lanes = make_lanes_string(1,int_edge_spec)
     all_internal_lanes += (":" + j1_6_lanes + " ")
     # Make internal edges
     j1_0_shape = internal_edge_ten_points_type_j1_0(road_length - 5.00,y_init + 2.00)
     j1_0_string = internal_shape_to_string_ten_points(j1_0_shape)
-    internal_edge_maker(int_edges['rh_ur'],1,"9.00",j1_0_string,'6.5',half_junc_net,net_header_xml)
+    internal_edge_maker(int_edges['rh_ur'],num_of_lanes['right_high'],"9.00",j1_0_string,'6.5',half_junc_net,net_header_xml)
     j1_1_shape = internal_edge_four_points_type(e1n_shape['x_f'],e1n_shape['y_f'],POSITIVE_SIDE)
     j1_1_string = shape_to_string(j1_1_shape)
-    internal_edge_maker(int_edges['rh_lh'],1,"14.4",j1_1_string,'13.89',half_junc_net,net_header_xml)
+    internal_edge_maker(int_edges['rh_lh'],num_of_lanes['right_high'],"14.4",j1_1_string,'13.89',half_junc_net,net_header_xml)
     j1_2_shape = internal_edge_four_points_type(e0p_shape['x_f'],e0p_shape['y_f'],NEGATIVE_SIDE)
     j1_2_string = shape_to_string(j1_2_shape)
-    internal_edge_maker(int_edges['ll_rl'],1,'14.4',j1_2_string,'13.89',half_junc_net,net_header_xml)
+    internal_edge_maker(int_edges['ll_rl'],num_of_lanes['left_low'],'14.4',j1_2_string,'13.89',half_junc_net,net_header_xml)
     j1_3_shape = internal_edge_six_points_type_1_3(e0p_shape['x_f'],e0p_shape['y_f'])
     j1_3_string = jucntion_shape_to_string_six_vals(j1_3_shape)
-    internal_edge_maker(int_edges['ll_ur'],1,'4.00',j1_3_string,'7.98',half_junc_net,net_header_xml)
+    internal_edge_maker(int_edges['ll_ur'],num_of_lanes['left_low'],'4.00',j1_3_string,'7.98',half_junc_net,net_header_xml)
     j1_4_shape = internal_edge_ten_points_type_j1_4(e2n_shape['x_f'],e2n_shape['y_f'])
     j1_4_string = internal_shape_to_string_ten_points(j1_4_shape)
-    internal_edge_maker(int_edges['ul_lh'],1,'9.00',j1_4_string,'8.05',half_junc_net,net_header_xml)
+    internal_edge_maker(int_edges['ul_lh'],num_of_lanes['upper_left'],'9.00',j1_4_string,'8.05',half_junc_net,net_header_xml)
     j1_5_shape = internal_edge_ten_points_type_j1_5(e2n_shape['x_f'],e2n_shape['y_f'])
     j1_5_string = internal_shape_to_string_ten_points(j1_5_shape)
-    internal_edge_maker(int_edges['ul_rl'],1,'14.20',j1_5_string,'8.05',half_junc_net,net_header_xml)
+    internal_edge_maker(int_edges['ul_rl'],num_of_lanes['upper_left'],'14.20',j1_5_string,'8.05',half_junc_net,net_header_xml)
     j1_6_shape = internal_edge_eight_points_type_j1_6(j1_3_shape['x_f'],j1_3_shape['y_f'])
     j1_6_string = junction_shape_to_string_eight_vals(j1_6_shape)
     internal_edge_maker(int_edge_spec,1,'10.20',j1_6_string,'8.05',half_junc_net,net_header_xml)
@@ -276,9 +276,7 @@ def half_junction_sim_net_make(edges,de_junc,central_junc,int_edges,int_edge_spe
     connection_maker(int_edges['ul_rl'], edges['r_l'], '0', '0', '', turn_dir['left'],
                      connect_st['Minor_h'], half_junc_net, net_header_xml)
     # Make traffic light
-    tl_duration = ['42','3','42','3']
-    tl_state = ['GGGgrr','yyyyrr','GrrrGG','yrrryy']
-    traffic_light_maker(central_junc,'static','0','0',tl_duration,tl_state,4,half_junc_net,net_header_xml)
+    traffic_light_maker(central_junc,'static','0','0',tl_times,tl_state,4,half_junc_net,net_header_xml)
     # Write to file
     half_junc_xml = half_junc_net.toprettyxml(indent="\t")
     with open(file_name, 'w') as xml_file:
