@@ -26,7 +26,7 @@ class split_road_params:
                                'lower':'J1_1',}
         self.num_of_rl_lanes = 4 # lanes right to left
         self.num_of_lr_lanes = 7 # lanes left to right
-        self.vhs_per_hr = '500.00'
+        self.vhs_per_hr = '1000.00'
 
 class HalfJunctionParams:
     def __init__(self):

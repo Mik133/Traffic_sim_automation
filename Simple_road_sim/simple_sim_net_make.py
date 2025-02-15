@@ -23,8 +23,6 @@ def simple_sim_net_make(simple_sim_args_object,road_length,angle_degrees,edge_0,
         lane_list.append(edge_0 + f"_{lane_num}")
     # Base args:
     inc_lanes_j1 = inc_lanes_j1[:-1]
-    #road_length = 150  # meters # TO BE ENTERED FROM EXTERNAL(DEBUG)
-    #angle_degrees = 0 # Default is horizontal road # TO BE ENTERED FROM EXTERNAL(DEBUG)
     # Make XML Object
     simple_net = minidom.Document()
     # Net header create and add
